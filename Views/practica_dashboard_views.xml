@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- 1. VISTA FORMULARIO (Form) -->
+        <record id="view_practica_dashboard_form" model="ir.ui.view">
+            <field name="name">einsa.practica.dashboard.form</field>
+            <field name="model">einsa.practica.dashboard</field>
+            <field name="arch" type="xml">
+                <form string="Dashboard de Prácticas">
+                    <header>
+                        <!-- Barra de estado en la parte superior -->
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" placeholder="Nombre del Tablero..."/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="responsible_id"/>
+                                <field name="area"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        
+                        <!-- Pestañas en la parte inferior -->
+                        <notebook>
+                            <page string="Indicadores (KPIs)">
+                                <!-- Aquí se incrusta el modelo KPI usando la relación One2many -->
+                                <field name="kpi_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="target_value"/>
+                                        <field name="unit"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Notas">
+                                <field name="notes"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- 2. VISTA LISTA (Tree) -->
+        <record id="view_practica_dashboard_tree" model="ir.ui.view">
+            <field name="name">einsa.practica.dashboard.tree</field>
+            <field name="model">einsa.practica.dashboard</field>
+            <field name="arch" type="xml">
+                <tree string="Dashboards">
+                    <field name="name"/>
+                    <field name="responsible_id"/>
+                    <field name="area"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- 3. VISTA BÚSQUEDA (Search) -->
+        <record id="view_practica_dashboard_search" model="ir.ui.view">
+            <field name="name">einsa.practica.dashboard.search</field>
+            <field name="model">einsa.practica.dashboard</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Dashboards">
+                    <field name="name"/>
+                    <field name="responsible_id"/>
+                    <field name="area"/>
+                    <!-- Filtros predeterminados y agrupaciones -->
+                    <filter string="Activos" name="active" domain="[('active', '=', True)]"/>
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Área" name="group_by_area" context="{'group_by': 'area'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+    <!-- ============================================== -->
+        <!-- 4. ACCIÓN (Lo que pasa al dar clic al menú)    -->
+        <!-- ============================================== -->
+        <record id="action_practica_dashboard" model="ir.actions.act_window">
+            <field name="name">Tableros de Prácticas</field>
+            <field name="res_model">einsa.practica.dashboard</field>
+            <!-- view_mode le dice a Odoo que primero abra la Lista (tree) y luego el Formulario (form) -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- ============================================== -->
+        <!-- 5. MENÚS (Los botones en la interfaz)          -->
+        <!-- ============================================== -->
+        <!-- Menú principal (La aplicación "Prácticas" que aparecerá en el inicio) -->
+        <menuitem id="menu_practicas_root" 
+                  name="Prácticas" 
+                  sequence="10"/>
+
+        <!-- Submenú "Tableros" (Dentro de la aplicación Prácticas) -->
+        <menuitem id="menu_practicas_dashboard" 
+                  name="Tableros" 
+                  parent="menu_practicas_root" 
+                  action="action_practica_dashboard" 
+                  sequence="10"/>
+    </data>
+</odoo>
