@@ -22,6 +22,7 @@
                             </group>
                             <group>
                                 <field name="date"/>
+                                <field name="kpi_count"/>
                                 <field name="active"/>
                             </group>
                         </group>

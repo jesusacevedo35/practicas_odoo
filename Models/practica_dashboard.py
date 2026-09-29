@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, api
 
 class PracticaDashboard(models.Model):
     # _name es el identificador técnico en Odoo y el nombre de la tabla en PostgreSQL
@@ -37,3 +37,16 @@ class PracticaDashboard(models.Model):
         'dashboard_id', 
         string='Indicadores (KPIs)'
     )
+    # Campo calculado
+    kpi_count = fields.Integer(
+        string='Cantidad de KPIs', 
+        compute='_compute_kpi_count'
+    )
+
+    # El decorador @api.depends le avisa a Odoo cuándo debe recalcular este número
+    @api.depends('kpi_ids')
+    def _compute_kpi_count(self):
+        # self puede contener varios registros al mismo tiempo, siempre debemos iterar con un for
+        for record in self:
+            # len() cuenta cuántos elementos hay en la lista kpi_ids
+            record.kpi_count = len(record.kpi_ids)
