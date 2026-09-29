@@ -5,7 +5,7 @@
     'description': 'Módulo de aprendizaje para prácticas profesionales',
     'depends': ['base'],
     'data': [
-        # Aquí agregaremos después los archivos de seguridad y vistas
+        'views/practica_dashboard_views.xml',
     ],
     'installable': True,
     'application': True,

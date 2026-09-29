@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_einsa_practica_dashboard,einsa.practica.dashboard.access,model_einsa_practica_dashboard,base.group_user,1,1,1,1
+access_einsa_practica_kpi,einsa.practica.kpi.access,model_einsa_practica_kpi,base.group_user,1,1,1,1
